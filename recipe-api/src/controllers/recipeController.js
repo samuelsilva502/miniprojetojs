@@ -1,20 +1,35 @@
 import { recipes } from '../data/recipes.js';
 
+
 export const getRecipesByType = (req, res) => {
-  const { type } = req.query;
-  const filteredRecipes = recipes.filter(recipe => recipe.type === type);
+  const { tipo } = req.query; 
+  if (!tipo) {
+    return res.status(400).json({ error: 'O parâmetro "tipo" é obrigatório' });
+  }
+  
+  const filteredRecipes = recipes.filter(recipe => recipe.type === tipo);
   res.json(filteredRecipes);
 };
+
 
 export const getRecipesByTime = (req, res) => {
-  const { time } = req.query;
-  const filteredRecipes = recipes.filter(recipe => recipe.time.includes(time));
+  const { tempo } = req.query; 
+  if (!tempo) {
+    return res.status(400).json({ error: 'O parâmetro "tempo" é obrigatório' });
+  }
+
+  const filteredRecipes = recipes.filter(recipe => recipe.time.includes(tempo));
   res.json(filteredRecipes);
 };
 
+
 export const getRecipesByIngredients = (req, res) => {
-  const { ingredients } = req.query;
-  const ingredientsArray = ingredients.split(',');
+  const { ingredientes } = req.query; 
+  if (!ingredientes) {
+    return res.status(400).json({ error: 'O parâmetro "ingredientes" é obrigatório' });
+  }
+
+  const ingredientsArray = ingredientes.split(',');
   const filteredRecipes = recipes.filter(recipe =>
     ingredientsArray.every(ingredient => recipe.ingredients.includes(ingredient))
   );
